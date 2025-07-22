@@ -7,7 +7,6 @@ document.getElementById('leftImg').addEventListener('click', function () {
   // 添加change事件处理
   fileInput.addEventListener('change', function (e) {
     const file = e.target.files[0];
-    console.log(file);
     if (file) {
       const reader = new FileReader();
 
@@ -22,6 +21,24 @@ document.getElementById('leftImg').addEventListener('click', function () {
         const div = document.getElementById('leftImg');
         div.innerHTML = ''; // 先清空
         div.appendChild(img); // 再添加图片
+
+        // 读取二进制数据
+        const buffer = event.target.result;
+        //
+        // // 调用C++处理
+        // const grayBuffer = grayscale.convertToGrayscale(buffer);
+
+        // // 转换回Blob并显示
+        // const blob = new Blob([grayBuffer], { type: file.type });
+        // const grayImg = document.createElement('img');
+        // grayImg.src = URL.createObjectURL(blob);
+        // grayImg.style.maxWidth = '100%';
+        // grayImg.style.maxHeight = '100%';
+
+        // // 显示在右侧容器
+        // const rightDiv = document.getElementById('rightImg') || document.body;
+        // rightDiv.innerHTML = '';
+        // rightDiv.appendChild(grayImg);
       };
 
       reader.readAsDataURL(file);
