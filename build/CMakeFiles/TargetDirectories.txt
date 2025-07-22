@@ -1,0 +1,3 @@
+/Users/hong/Desktop/未命名文件夹/build/CMakeFiles/grayscale.dir
+/Users/hong/Desktop/未命名文件夹/build/CMakeFiles/edit_cache.dir
+/Users/hong/Desktop/未命名文件夹/build/CMakeFiles/rebuild_cache.dir
