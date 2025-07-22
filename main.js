@@ -25,8 +25,6 @@ ipcMain.handle('convert-grayscale', (event, buffer) => {
   try {
     const bufferTemp = Buffer.from(buffer);
     const grayBuffer = grayscale.convertToGrayscale(bufferTemp);
-    // const outputImagePath = path.join(__dirname, 'output-gray.jpg');
-    // fs.writeFileSync(outputImagePath, grayBuffer);
     return grayBuffer; // 返回 Buffer
   } catch (error) {
     console.error('灰度转换失败:', error);
