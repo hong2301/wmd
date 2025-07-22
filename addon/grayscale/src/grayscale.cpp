@@ -1,50 +1,68 @@
 #include <napi.h>
 #include <opencv2/opencv.hpp>
+#include <vector>
 
-using namespace cv;
+// 避免直接使用 `using namespace`，改为显式指定命名空间
+using Napi::Buffer;
+using Napi::CallbackInfo;
+using Napi::Env;
+using Napi::Function;
+using Napi::Object;
+using Napi::TypeError;
 
-Napi::Value ConvertToGrayscale(const Napi::CallbackInfo& info) {
-    Napi::Env env = info.Env();
+// 不再使用 `using namespace cv`，改用 `cv::` 前缀
+Buffer<uint8_t> ConvertToGrayscale(const CallbackInfo& info) {
+  Env env = info.Env();
 
-    // 检查参数
-    if (info.Length() < 1 || !info[0].IsString()) {
-        Napi::TypeError::New(env, "String expected for image path").ThrowAsJavaScriptException();
-        return env.Null();
-    }
+  // 参数验证
+  if (info.Length() < 1 || !info[0].IsBuffer()) {
+    TypeError::New(env, "Buffer expected").ThrowAsJavaScriptException();
+    return Buffer<uint8_t>::New(env, 0);
+  }
 
-    std::string inputPath = info[0].As<Napi::String>().Utf8Value();
-    std::string outputPath = "output_gray.jpg";
+  // 获取输入 Buffer
+  Buffer<uint8_t> inputBuffer = info[0].As<Buffer<uint8_t>>();
+  size_t length = inputBuffer.Length();
+  uint8_t* inputData = inputBuffer.Data();
 
-    if (info.Length() > 1 && info[1].IsString()) {
-        outputPath = info[1].As<Napi::String>().Utf8Value();
-    }
+  // 将 Buffer 解码为 OpenCV Mat
+  std::vector<uint8_t> bufferData(inputData, inputData + length);
+  cv::Mat inputMat = cv::imdecode(bufferData, cv::IMREAD_COLOR);
+  
+  if (inputMat.empty()) {
+    Napi::Error::New(env, "Failed to decode image from buffer").ThrowAsJavaScriptException(); // 显式使用 Napi::Error
+    return Buffer<uint8_t>::New(env, 0);
+  }
 
-    // 读取输入图片
-    Mat image = imread(inputPath, IMREAD_COLOR);
-    if (image.empty()) {
-        Napi::Error::New(env, "Could not open or find the image").ThrowAsJavaScriptException();
-        return env.Null();
-    }
+  // 转换为灰度图
+  cv::Mat grayMat;
+  cv::cvtColor(inputMat, grayMat, cv::COLOR_BGR2GRAY);
 
-    // 转换为灰度图
-    Mat grayImage;
-    cvtColor(image, grayImage, COLOR_BGR2GRAY);
+  // 编码为 JPEG 格式的 Buffer
+  std::vector<uint8_t> outputBuffer;
+  std::vector<int> compression_params = {
+    cv::IMWRITE_JPEG_QUALITY, 90  // 设置JPEG质量
+  };
+  
+  if (!cv::imencode(".jpg", grayMat, outputBuffer, compression_params)) {
+    Napi::Error::New(env, "Failed to encode image to buffer").ThrowAsJavaScriptException(); // 显式使用 Napi::Error
+    return Buffer<uint8_t>::New(env, 0);
+  }
 
-    // 保存输出
-    try {
-        imwrite(outputPath, grayImage);
-    } catch (const cv::Exception& e) {
-        Napi::Error::New(env, "Failed to save image: " + std::string(e.what())).ThrowAsJavaScriptException();
-        return env.Null();
-    }
-
-    return Napi::String::New(env, outputPath);
+  // 创建返回的 Buffer
+  return Buffer<uint8_t>::Copy(
+    env, 
+    outputBuffer.data(), 
+    outputBuffer.size()
+  );
 }
 
-Napi::Object Init(Napi::Env env, Napi::Object exports) {
-    exports.Set(Napi::String::New(env, "convertToGrayscale"), 
-                Napi::Function::New(env, ConvertToGrayscale));
-    return exports;
+Object Init(Env env, Object exports) {
+  exports.Set(
+    Napi::String::New(env, "convertToGrayscale"),  // 显式使用 Napi::String
+    Function::New(env, ConvertToGrayscale)
+  );
+  return exports;
 }
 
 NODE_API_MODULE(grayscale, Init)
