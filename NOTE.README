@@ -98,7 +98,7 @@ int main(int argc, char** argv)
 export quirc_DIR=$VCPKG_ROOT/installed/arm64-osx/share/quirc
 ```
 
-### 运行
+### 测试运行
 
 ```
 cmake .. -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
