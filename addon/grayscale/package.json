@@ -1,0 +1,16 @@
+{
+  "name": "grayscale",
+  "version": "1.0.0",
+  "description": "Node.js addon for image grayscale conversion",
+  "main": "index.js",
+  "scripts": {
+    "build": "cmake-js compile",
+    "test": "node test/test.js"
+  },
+  "dependencies": {
+    "bindings": "^1.5.0",
+    "cmake-js": "^6.3.0",
+    "node-addon-api": "^5.0.0"
+  },
+  "gypfile": true
+}
