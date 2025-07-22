@@ -1,0 +1,42 @@
+# 万铭达测试题
+
+
+
+## 配置 vcpkg 环境
+
+下载并初始化
+
+```
+git clone https://github.com/Microsoft/vcpkg.git
+cd vcpkg
+.\bootstrap-vcpkg.bat
+```
+
+碰到国内访问 github 失败，设置代理，重新运行
+
+```
+export https_proxy=http://127.0.0.1:7890
+export http_proxy=http://127.0.0.1:7890
+```
+
+检查是否成功
+
+```
+./vcpkg --version
+```
+
+配置环境变量
+
+```
+export VCPKG_HOME=/Users/hong/vcpkg-master
+export PATH=$VCPKG_HOME:$PATH
+```
+
+## 配置 opencv 环境
+
+安装
+
+```
+vcpkg install opencv
+```
+
