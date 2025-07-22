@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src 'self' data:;"
+    />
+    <meta
+      http-equiv="X-Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'"
+    />
+    <title>图片灰度转换</title>
+    <link rel="stylesheet" href="./src/index.css" />
+  </head>
+  <body>
+    <div class="overture">
+      <div class="title">图 片 灰 度 转 换 器</div>
+      <div class="img-box">
+        <div id="leftImg" class="left img-item">选择图片</div>
+        <div class="trbtn">=></div>
+        <div id="rightImg" class="right img-item">选择图片后生成</div>
+      </div>
+    </div>
+  </body>
+  <script src="./src/renderer.js"></script>
+</html>
