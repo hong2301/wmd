@@ -3,7 +3,7 @@ set(CMAKE_HOST_SYSTEM_NAME "Darwin")
 set(CMAKE_HOST_SYSTEM_VERSION "24.5.0")
 set(CMAKE_HOST_SYSTEM_PROCESSOR "arm64")
 
-include("/Users/hong/vcpkg-master/scripts/buildsystems/vcpkg.cmake")
+
 
 set(CMAKE_SYSTEM "Darwin-24.5.0")
 set(CMAKE_SYSTEM_NAME "Darwin")
