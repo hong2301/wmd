@@ -11,7 +11,7 @@ find_package(OpenCV REQUIRED)
 find_package(quirc REQUIRED)
 
 # 查找Node.js和NAPI
-set(NodeJS_INCLUDE_DIR "/opt/homebrew/opt/nvm/versions/node/v20.11.1/include/node")
+set(NodeJS_INCLUDE_DIR $ENV{NODE_PATH}/include/node)
 include_directories(${NodeJS_INCLUDE_DIR})
 
 # 指定 NAPI 路径
