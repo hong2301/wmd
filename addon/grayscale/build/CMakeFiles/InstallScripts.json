@@ -1,7 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/Users/hong/Desktop/electron/addon/grayscale/build/cmake_install.cmake"
-	],
-	"Parallel" : false
-}

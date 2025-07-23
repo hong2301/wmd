@@ -1,3 +1,0 @@
-/Users/hong/Desktop/electron/addon/grayscale/build/CMakeFiles/grayscale-node.dir
-/Users/hong/Desktop/electron/addon/grayscale/build/CMakeFiles/edit_cache.dir
-/Users/hong/Desktop/electron/addon/grayscale/build/CMakeFiles/rebuild_cache.dir
